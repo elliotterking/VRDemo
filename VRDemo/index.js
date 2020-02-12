@@ -4,10 +4,18 @@ import {
   StyleSheet,
   Text,
   View,
+  Environment, 
+  asset, 
+  VrButton
 } from 'react-360';
 
 export default class VRDemo extends React.Component {
-  render() {
+  btnClick(){
+    console.log("btn click yo");
+    Environment.setBackgroundImage(asset("/equirectangularTest.jpg"), );    
+  }
+
+  render() { 
     return (
       <View style={styles.panel}>
         <View style={styles.greetingBox}>
@@ -20,6 +28,11 @@ export default class VRDemo extends React.Component {
             A very gay welcome
           </Text>
         </View>
+        <VrButton style={styles.btn} onClick= {() => this.btnClick()}> 
+        <Text style={styles.greeting} >
+            A very clickable btn
+        </Text>
+        </VrButton>
       </View>
     );
   }
@@ -39,6 +52,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#000000',
     borderColor: '#639dda',
     borderWidth: 2,
+  },
+  btn: {
+    padding: 20,
+    backgroundColor: '#000000',
+    borderColor: '#639dda',
+    borderWidth: 2,
+    margin: 20
   },
   greeting: {
     fontSize: 30,
