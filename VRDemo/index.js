@@ -8,6 +8,7 @@ import {
   asset, 
   VrButton
 } from 'react-360';
+import Entity from 'Entity';
 
 export default class VRDemo extends React.Component {
   btnClick(){
@@ -33,6 +34,10 @@ export default class VRDemo extends React.Component {
             A very clickable btn
         </Text>
         </VrButton>
+         
+
+        <Entity source={{gltf2: asset('pentagon/scene.gltf')}} />
+
       </View>
     );
   }
