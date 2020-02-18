@@ -4,19 +4,45 @@ import {
   StyleSheet,
   Text,
   View,
-  Environment, 
-  asset, 
-  VrButton
+  Environment,
+  asset,
+  VrButton,
+  staticAssetURL
 } from 'react-360';
 import Entity from 'Entity';
+import VideoModule from 'VideoModule';
 
 export default class VRDemo extends React.Component {
-  btnClick(){
-    console.log("btn click yo");
-    Environment.setBackgroundImage(asset("/equirectangularTest.jpg"), );    
+  state = {
+    count: 0,
+  };
+
+
+  _incrementCount = () => {
+    this.setState({ count: this.state.count + 1 });
+  };
+
+  componentDidMount() {
+    //setInterval(this._incrementCount, 1000);
   }
 
-  render() { 
+  btnClick() {
+    this._incrementCount();
+
+    // Create a player
+    const player = VideoModule.createPlayer('myplayer');
+    // Play a specific video
+    player.play({
+      source: { url: staticAssetURL('ShowerFalls.mp4') }, // provide the path to the video
+    });
+    // Display the background video on the Environment
+    Environment.setBackgroundVideo('myplayer');
+
+
+    //Environment.setBackgroundImage(asset("/equirectangularTest.jpg"));
+  }
+
+  render() {
     return (
       <View style={styles.panel}>
         <View style={styles.greetingBox}>
@@ -29,14 +55,24 @@ export default class VRDemo extends React.Component {
             A very gay welcome
           </Text>
         </View>
-        <VrButton style={styles.btn} onClick= {() => this.btnClick()}> 
-        <Text style={styles.greeting} >
+        <VrButton style={styles.btn} onClick={() => this.btnClick()}>
+          <Text style={styles.greeting} >
             A very clickable btn
         </Text>
         </VrButton>
-         
 
-        <Entity source={{gltf2: asset('pentagon/scene.gltf')}} />
+
+        <Entity
+          source={{ gltf2: asset('pentagon/scene.gltf') }}
+          style={{
+            transform: [
+              { translate: [-5, 0, -3] }
+            ]
+          }}
+        />
+        <Text style={styles.greeting}>
+          {`Count: ${this.state.count}`}
+        </Text>
 
       </View>
     );
@@ -67,7 +103,7 @@ const styles = StyleSheet.create({
   },
   greeting: {
     fontSize: 30,
-  }, 
+  },
   gayGreeting: {
     fontSize: 80,
   },
